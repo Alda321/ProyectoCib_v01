@@ -1,0 +1,32 @@
+﻿@model MyAppFirst.Models.Pedido
+@{
+    ViewData["Title"] = "Editar Pedido";
+    var platos = ViewBag.Platos as List<MyAppFirst.Models.Plato>;
+}
+
+<h3>Editar Pedido</h3>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label>Mesa</label>
+        <input asp-for="NumeroMesa" class="form-control" />
+    </div>
+
+    <h4>Platos</h4>
+    @for (int i = 0; i < platos.Count; i++)
+    {
+        var detalle = Model.Detalles.FirstOrDefault(d => d.PlatoId == platos[i].Id);
+        int cantidad = detalle != null ? detalle.Cantidad : 0;
+
+        <div class="form-group">
+            <label>@platos[i].Nombre (@platos[i].Precio.ToString("N2"))</label>
+            <input type="hidden" name="platoIds[@i]" value="@platos[i].Id" />
+            <input type="number" name="cantidades[@i]" class="form-control" min="0" value="@cantidad" />
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

@@ -1,0 +1,50 @@
+﻿@model List<MyAppFirst.Models.Pedido>
+
+@{
+    ViewData["Title"] = "Reporte de Ventas";
+    decimal totalVentas = 0;
+}
+
+<h3>Reporte de Ventas</h3>
+<a asp-action="Index" class="btn btn-secondary">Volver</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Pedido ID</th>
+            <th>Mesa</th>
+            <th>Fecha</th>
+            <th>Plato</th>
+            <th>Cantidad</th>
+            <th>Estado</th>
+            <th>Precio Unitario</th>
+            <th>Total Plato</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pedido in Model)
+        {
+            foreach (var detalle in pedido.Detalles)
+            {
+                var totalPlato = detalle.Cantidad * detalle.Plato.Precio;
+                totalVentas += totalPlato;
+                <tr>
+                    <td>@pedido.Id</td>
+                    <td>@pedido.NumeroMesa</td>
+                    <td>@pedido.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@detalle.Plato.Nombre</td>
+                    <td>@detalle.Cantidad</td>
+                    <td>@pedido.Estado</td>
+                    <td>@(detalle.Plato.Precio.ToString("N2"))</td>
+                    <td>@(totalPlato.ToString("N2"))</td>
+                </tr>
+            }
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6" class="text-end"><strong>Total Ventas:</strong></td>
+            <td><strong>@(totalVentas.ToString("N2"))</strong></td>
+        </tr>
+    </tfoot>
+</table>

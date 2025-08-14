@@ -1,0 +1,76 @@
+﻿@model List<MyAppFirst.Models.Pedido>
+
+@{
+    ViewData["Title"] = "Pedidos";
+}
+
+<h3>Pedidos</h3>
+<a asp-controller="Cocina" asp-action="Index" class="btn btn-warning">Ver Cocina</a>
+<a asp-controller="Pedidos" asp-action="ReporteVentas" class="btn btn-warning">Reporte de Ventas</a>
+
+
+<a asp-action="Create" class="btn btn-primary">Nuevo Pedido</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Mesa</th>
+            <th>Estado</th>
+            <th>Detalles</th>
+            <th>Operaciones</th>
+            <th>Otros</th>
+        </tr>
+    </thead>
+    <tbody id="TablaActualizar">
+        @foreach (var pedido in Model.Where(p => p.Detalles.Any(d => d.Cantidad >= 1)))
+        {
+            <tr>
+                <td>@pedido.Id</td>
+                <td>@pedido.NumeroMesa</td>
+                <td>@pedido.Estado</td>
+                <td>
+                    <ul>
+                        @foreach (var detalle in pedido.Detalles.Where(d => d.Cantidad >= 1))
+                        {
+                            <li>@($"{detalle.Plato.Nombre} (x{detalle.Cantidad})")</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    @if (pedido.Estado == MyAppFirst.Models.EstadoPedido.Pendiente)
+                    {
+                        <a asp-action="Edit" asp-route-id="@pedido.Id">Editar</a>
+ 
+                    }
+                    else
+                    {
+                        <span>No editable</span>
+                    }
+                </td>
+                <td>
+                
+                        @if (pedido.Pagado)
+                        {
+                        <span class="badge bg-success">Pagado</span>
+                        }
+                        else
+                        {
+                        <a asp-action="ConfirmarPago" asp-route-id="@pedido.Id" class="btn btn-success btn-sm">
+                            Marcar como Pagado
+                        </a>
+                        }
+                
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    setInterval(function () {
+        $("#TablaActualizar").load(window.location.href + " #TablaActualizar>*");
+    }, 1000); // cada 1 segundos
+</script>

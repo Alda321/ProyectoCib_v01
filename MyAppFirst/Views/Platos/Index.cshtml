@@ -1,0 +1,40 @@
+﻿@model List<MyAppFirst.Models.Plato>
+
+@{
+    ViewData["Title"] = "Platos";
+}
+
+<a asp-controller="Pedidos" asp-action="Index" class="btn btn-secondary">Pedidos</a>
+<h3>Lista de Platos</h3>
+<a asp-action="Create" class="btn btn-primary">Crear Plato</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Operaciones</th>
+        </tr>
+    </thead>
+    <br/>
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <tbody>
+        @foreach (var plato in Model)
+        {
+            <tr>
+                <td>@plato.Id</td>
+                <td>@plato.Nombre</td>
+                <td>@plato.Precio.ToString("N2")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@plato.Id">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@plato.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

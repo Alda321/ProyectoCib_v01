@@ -1,0 +1,19 @@
+﻿@model MyAppFirst.Models.Plato
+
+@{
+    ViewData["Title"] = "Crear Plato";
+}
+
+<h3>Crear Plato</h3>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label>Nombre</label>
+        <input asp-for="Nombre" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Precio</label>
+        <input asp-for="Precio" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>

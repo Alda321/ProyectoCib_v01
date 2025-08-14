@@ -32,5 +32,45 @@ namespace MyAppFirst.Controllers
             }
             return View(item);
         }
+
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+             var item = await _appContext.Items.FindAsync(id);
+             return View(item);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,Price")] Item item)
+        {
+            if (ModelState.IsValid)
+            {
+            _appContext.Update(item);
+            await _appContext.SaveChangesAsync();
+            return RedirectToAction("Indice");
+            }
+            return View(item);
+        }
+
+        //
+        public async Task<IActionResult> Delete(int? id)
+        {
+            var item = await _appContext.Items.FirstOrDefaultAsync(m => m.Id == id);
+            return View(item);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var item = await _appContext.Items.FindAsync(id);
+            if (item != null)
+            {
+                _appContext.Items.Remove(item);
+                await _appContext.SaveChangesAsync();
+            }
+            return RedirectToAction("Indice");
+        }
+
+
     }
 }

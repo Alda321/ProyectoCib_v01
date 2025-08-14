@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyAppFirst.Data;
 
@@ -11,9 +12,11 @@ using MyAppFirst.Data;
 namespace MyAppFirst.Migrations
 {
     [DbContext(typeof(MyAppContext))]
-    partial class MyAppContextModelSnapshot : ModelSnapshot
+    [Migration("20250814002623_Inicial3")]
+    partial class Inicial3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,9 +58,6 @@ namespace MyAppFirst.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("MozoId")
-                        .HasColumnType("int");
-
                     b.Property<string>("NumeroMesa")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -66,8 +66,6 @@ namespace MyAppFirst.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MozoId");
 
                     b.ToTable("Pedidos");
                 });
@@ -108,8 +106,7 @@ namespace MyAppFirst.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Precio")
                         .HasColumnType("decimal(18,2)");
@@ -117,46 +114,6 @@ namespace MyAppFirst.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Platos");
-                });
-
-            modelBuilder.Entity("MyAppFirst.Models.Usuario", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("Rol")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsuarioLogin")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Usuarios");
-                });
-
-            modelBuilder.Entity("MyAppFirst.Models.Pedido", b =>
-                {
-                    b.HasOne("MyAppFirst.Models.Usuario", "Mozo")
-                        .WithMany()
-                        .HasForeignKey("MozoId");
-
-                    b.Navigation("Mozo");
                 });
 
             modelBuilder.Entity("MyAppFirst.Models.PedidoDetalle", b =>

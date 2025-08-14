@@ -1,0 +1,18 @@
+﻿@model MyAppFirst.Models.Plato
+
+@{
+    ViewData["Title"] = "Eliminar Plato";
+}
+
+<h3>Eliminar Plato</h3>
+<p>¿Estás seguro de eliminar este plato?</p>
+
+<div>
+    <strong>@Model.Nombre</strong> - @Model.Precio.ToString("N2")
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger" >Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

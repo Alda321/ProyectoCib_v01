@@ -1,0 +1,50 @@
+﻿@model List<MyAppFirst.Models.Pedido>
+
+@{
+    ViewData["Title"] = "Cocina";
+}
+
+<h3>Pedidos en Cocina</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Mesa</th>
+            <th>Estado</th>
+            <th>Detalles</th>
+            <th>Cambiar Estado</th>
+        </tr>
+    </thead>
+    <tbody id="TablaActualizar">
+        @foreach (var pedido in Model)
+        {
+            <tr>
+                <td>@pedido.Id</td>
+                <td>@pedido.NumeroMesa</td>
+                <td>@pedido.Estado</td>
+                <td>
+                    <ul>
+                        @foreach (var detalle in pedido.Detalles.Where(d => d.Cantidad >= 1))
+                        {
+                            <li>@($"{detalle.Plato.Nombre} (x{detalle.Cantidad})")</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <a asp-action="CambiarEstado" asp-route-id="@pedido.Id" asp-route-nuevoEstado="Preparando">Preparar</a> |
+                    <a asp-action="CambiarEstado" asp-route-id="@pedido.Id" asp-route-nuevoEstado="Servido">Servir</a> |
+                    <a asp-action="CambiarEstado" asp-route-id="@pedido.Id" asp-route-nuevoEstado="Cancelado">Cancelar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    setInterval(function () {
+        $("#TablaActualizar").load(window.location.href + " #TablaActualizar>*");
+    }, 1000); // cada 1 segundos
+</script>
+
