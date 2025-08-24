@@ -4,15 +4,20 @@
     ViewData["Title"] = "Pedidos";
 }
 
-<h3>Pedidos</h3>
-<a asp-controller="Cocina" asp-action="Index" class="btn btn-warning">Ver Cocina</a>
-<a asp-controller="Pedidos" asp-action="ReporteVentas" class="btn btn-warning">Reporte de Ventas</a>
+<h3 class="mb-4">Pedidos</h3>
 
+<div class="mb-3">
+    <form asp-action="Logout" asp-controller="Usuario" method="post" class="d-inline">
+        <button type="submit" class="btn btn-danger me-1">Cerrar Sesión</button>
+    </form>
 
-<a asp-action="Create" class="btn btn-primary">Nuevo Pedido</a>
+    <button type="button" class="btn btn-secondary me-1" onclick="window.history.back();">Cancelar</button>
 
-<table class="table">
-    <thead>
+    <a asp-action="Create" class="btn btn-primary">Nuevo Pedido</a>
+</div>
+
+<table class="table table-striped table-hover table-bordered">
+    <thead class="table-primary">
         <tr>
             <th>ID</th>
             <th>Mesa</th>
@@ -30,7 +35,7 @@
                 <td>@pedido.NumeroMesa</td>
                 <td>@pedido.Estado</td>
                 <td>
-                    <ul>
+                    <ul class="mb-0 ps-3">
                         @foreach (var detalle in pedido.Detalles.Where(d => d.Cantidad >= 1))
                         {
                             <li>@($"{detalle.Plato.Nombre} (x{detalle.Cantidad})")</li>
@@ -40,37 +45,34 @@
                 <td>
                     @if (pedido.Estado == MyAppFirst.Models.EstadoPedido.Pendiente)
                     {
-                        <a asp-action="Edit" asp-route-id="@pedido.Id">Editar</a>
- 
+                        <a asp-action="Edit" asp-route-id="@pedido.Id" class="btn btn-primary btn-sm">Editar</a>
                     }
                     else
                     {
-                        <span>No editable</span>
+                        <span class="text-muted">No editable</span>
                     }
                 </td>
                 <td>
-                
-                        @if (pedido.Pagado)
-                        {
+                    @if (pedido.Pagado)
+                    {
                         <span class="badge bg-success">Pagado</span>
-                        }
-                        else
-                        {
+                    }
+                    else
+                    {
                         <a asp-action="ConfirmarPago" asp-route-id="@pedido.Id" class="btn btn-success btn-sm">
                             Marcar como Pagado
                         </a>
-                        }
-                
-
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    // Actualizar tabla cada segundo
     setInterval(function () {
         $("#TablaActualizar").load(window.location.href + " #TablaActualizar>*");
-    }, 1000); // cada 1 segundos
+    }, 1000);
 </script>

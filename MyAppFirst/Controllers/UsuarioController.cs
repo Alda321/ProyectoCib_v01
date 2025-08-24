@@ -49,6 +49,7 @@ namespace MyAppFirst.Controllers
         }
 
         //============== 
+        
         public async Task<IActionResult> Index()
         {
             var usuarios = await _context.Usuarios.ToListAsync();
@@ -67,7 +68,6 @@ namespace MyAppFirst.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Puedes encriptar la contraseña aquí si quieres
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Login));

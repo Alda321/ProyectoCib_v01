@@ -4,12 +4,22 @@
     ViewData["Title"] = "Cocina";
 }
 
-<a asp-controller="Platos" asp-action="Index" class="btn btn-secondary">Agregar paltos del menu</a>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<h3>Pedidos en Cocina</h3>
+<div class="mb-3">
+    <button type="button" class="btn btn-secondary me-1" onclick="window.history.back();">Volver</button>
 
-<table class="table">
-    <thead>
+    <form asp-action="Logout" asp-controller="Usuario" method="post" class="d-inline">
+        <button type="submit" class="btn btn-danger me-1">Cerrar Sesión</button>
+    </form>
+
+    <a asp-controller="Platos" asp-action="Index" class="btn btn-success">Agregar Platos del Menú</a>
+</div>
+
+<h3 class="mb-3 border-bottom pb-2">Pedidos en Cocina</h3>
+
+<table class="table table-striped table-hover table-bordered">
+    <thead class="table-primary text-center">
         <tr>
             <th>ID</th>
             <th>Mesa</th>
@@ -19,34 +29,36 @@
         </tr>
     </thead>
     <tbody id="TablaActualizar">
-        @foreach (var pedido in Model)
+        @foreach (var pedido in Model.Where(p => p.Detalles.Any(d => d.Cantidad >= 1)))
         {
             <tr>
-                <td>@pedido.Id</td>
-                <td>@pedido.NumeroMesa</td>
-                <td>@pedido.Estado</td>
+                <td class="text-center">@pedido.Id</td>
+                <td class="text-center">@pedido.NumeroMesa</td>
+                <td class="text-center">@pedido.Estado</td>
                 <td>
-                    <ul>
+                    <ul class="mb-0 ps-3">
                         @foreach (var detalle in pedido.Detalles.Where(d => d.Cantidad >= 1))
                         {
                             <li>@($"{detalle.Plato.Nombre} (x{detalle.Cantidad})")</li>
                         }
                     </ul>
                 </td>
-                <td>
-                    <a asp-action="CambiarEstado" asp-route-id="@pedido.Id" asp-route-nuevoEstado="Preparando">Preparar</a> |
-                    <a asp-action="CambiarEstado" asp-route-id="@pedido.Id" asp-route-nuevoEstado="Servido">Servir</a> |
-                    <a asp-action="CambiarEstado" asp-route-id="@pedido.Id" asp-route-nuevoEstado="Cancelado">Cancelar</a>
+                <td class="text-center">
+                    <a asp-action="CambiarEstado" asp-route-id="@pedido.Id" asp-route-nuevoEstado="Preparando" class="text-info fw-bold me-2">Preparar</a>
+                    <a asp-action="CambiarEstado" asp-route-id="@pedido.Id" asp-route-nuevoEstado="Servido" class="text-success fw-bold me-2">Servir</a>
+                    <a asp-action="CambiarEstado" asp-route-id="@pedido.Id" asp-route-nuevoEstado="Cancelado" class="text-danger fw-bold">Cancelar</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+    // Actualiza la tabla cada segundo
     setInterval(function () {
         $("#TablaActualizar").load(window.location.href + " #TablaActualizar>*");
-    }, 1000); // cada 1 segundos
+    }, 1000);
 </script>
-

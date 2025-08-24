@@ -4,9 +4,12 @@
     ViewData["Title"] = "Platos";
 }
 
-<a asp-controller="Pedidos" asp-action="Index" class="btn btn-secondary">Pedidos</a>
 <h3>Lista de Platos</h3>
 <a asp-action="Create" class="btn btn-primary">Crear Plato</a>
+<button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancelar</button>
+<form asp-action="Logout" asp-controller="Usuario" method="post" style="display:inline">
+    <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+</form>
 
 <table class="table">
     <thead>
@@ -14,15 +17,10 @@
             <th>Id</th>
             <th>Nombre</th>
             <th>Precio</th>
+            <th>Estado</th>
             <th>Operaciones</th>
         </tr>
     </thead>
-    <br/>
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger">@TempData["Error"]</div>
-    }
-
     <tbody>
         @foreach (var plato in Model)
         {
@@ -31,8 +29,27 @@
                 <td>@plato.Nombre</td>
                 <td>@plato.Precio.ToString("N2")</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@plato.Id">Editar</a> |
-                    <a asp-action="Delete" asp-route-id="@plato.Id">Eliminar</a>
+                    @if (plato.Activo)
+                    {
+                        <span class="badge bg-success">Activo</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Inactivo</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@plato.Id" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@plato.Id" class="btn btn-sm btn-danger">Eliminar</a>
+
+                    @if (plato.Activo)
+                    {
+                        <a asp-action="Desactivar" asp-route-id="@plato.Id" class="btn btn-sm btn-secondary">Desactivar</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Activar" asp-route-id="@plato.Id" class="btn btn-sm btn-success">Activar</a>
+                    }
                 </td>
             </tr>
         }

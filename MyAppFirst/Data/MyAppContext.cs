@@ -10,7 +10,6 @@ namespace MyAppFirst.Data
         public DbSet<Plato> Platos { get; set; }
         public DbSet<Pedido> Pedidos { get; set; }
         public DbSet<PedidoDetalle> PedidoDetalles { get; set; }
-        public DbSet<Item> Items { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

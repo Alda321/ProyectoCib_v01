@@ -87,5 +87,29 @@ namespace MyAppFirst.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        //-------
+        [HttpGet]
+        public IActionResult Activar(int id)
+        {
+            var plato = _context.Platos.Find(id);
+            if (plato == null) return NotFound();
+
+            plato.Activo = true;
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult Desactivar(int id)
+        {
+            var plato = _context.Platos.Find(id);
+            if (plato == null) return NotFound();
+
+            plato.Activo = false;
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

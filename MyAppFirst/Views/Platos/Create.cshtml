@@ -4,16 +4,25 @@
     ViewData["Title"] = "Crear Plato";
 }
 
-<h3>Crear Plato</h3>
+<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+    <div class="card shadow-sm p-4 w-100" style="max-width: 400px;">
+        <h3 class="mb-4 text-center">Crear Plato</h3>
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label>Nombre</label>
-        <input asp-for="Nombre" class="form-control" />
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label asp-for="Nombre" class="form-label">Nombre</label>
+                <input asp-for="Nombre" class="form-control" placeholder="Ingrese nombre del plato" />
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Precio" class="form-label">Precio</label>
+                <input asp-for="Precio" class="form-control" placeholder="Ingrese precio" />
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancelar</button>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label>Precio</label>
-        <input asp-for="Precio" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-primary">Guardar</button>
-</form>
+</div>

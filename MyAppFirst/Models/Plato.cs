@@ -14,6 +14,9 @@ namespace MyAppFirst.Models
         [Range(0.01, double.MaxValue, ErrorMessage = "El precio debe ser mayor que 0")]
         public decimal Precio { get; set; }
 
+
+        public bool Activo { get; set; } = true; 
+
         // Relación con PedidoDetalle
         public List<PedidoDetalle> PedidoDetalles { get; set; } = new List<PedidoDetalle>();
     }
