@@ -15,6 +15,11 @@
                 <label asp-for="NumeroMesa" class="form-label">Mesa</label>
                 <input asp-for="NumeroMesa" class="form-control" placeholder="Número de mesa" />
             </div>
+            <div class="mb-4">
+                <label asp-for="Comentario" class="control-label">Comentario</label>
+                <input asp-for="Comentario" class="form-control" />
+                <span asp-validation-for="Comentario" class="text-danger"></span>
+            </div>
 
             <h4 class="mb-3">Platos</h4>
             <div class="row g-3">

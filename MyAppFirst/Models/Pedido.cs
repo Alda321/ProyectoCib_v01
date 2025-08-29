@@ -23,6 +23,8 @@ namespace MyAppFirst.Models
         public EstadoPedido Estado { get; set; } = EstadoPedido.Pendiente;
 
         public bool Pagado { get; set; } = false;
+        public string? Comentario { get; set; }
+
 
         // Relación con Detalles del Pedido
         public List<PedidoDetalle> Detalles { get; set; } = new List<PedidoDetalle>();

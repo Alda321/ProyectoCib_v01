@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Modelo.Server.Models
 {
@@ -23,12 +24,16 @@ namespace Modelo.Server.Models
         public EstadoPedido Estado { get; set; } = EstadoPedido.Pendiente;
 
         public bool Pagado { get; set; } = false;
+        public string? Comentario { get; set; }
+        [JsonIgnore]
 
         // Relación con Detalles del Pedido
-        public List<PedidoDetalle> Detalles { get; set; } = new List<PedidoDetalle>();
+        public ICollection<PedidoDetalle> PedidoDetalles { get; set; } = new List<PedidoDetalle>();
+
 
         // Relación con el mozo que atendió
         public int? MozoId { get; set; }
+        [JsonIgnore]
         public Usuario? Mozo { get; set; }
     }
 }

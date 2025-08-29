@@ -22,6 +22,7 @@
             <th>ID</th>
             <th>Mesa</th>
             <th>Estado</th>
+            <th>Comentario</th>   @* <-- nueva columna *@
             <th>Detalles</th>
             <th>Operaciones</th>
             <th>Otros</th>
@@ -34,6 +35,7 @@
                 <td>@pedido.Id</td>
                 <td>@pedido.NumeroMesa</td>
                 <td>@pedido.Estado</td>
+                <td>@pedido.Comentario</td>   @* <-- mostramos el comentario *@
                 <td>
                     <ul class="mb-0 ps-3">
                         @foreach (var detalle in pedido.Detalles.Where(d => d.Cantidad >= 1))

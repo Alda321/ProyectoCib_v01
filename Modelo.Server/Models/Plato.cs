@@ -21,6 +21,7 @@ namespace Modelo.Server.Models
 
         // Relación con PedidoDetalle
         [JsonPropertyName("pedido_detalles")]
+        [JsonIgnore]
         public List<PedidoDetalle> PedidoDetalles { get; set; } = new List<PedidoDetalle>();
     }
 }

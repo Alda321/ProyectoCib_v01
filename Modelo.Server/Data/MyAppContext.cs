@@ -22,7 +22,7 @@ namespace Modelo.Server.Data
             // Relación Pedido -> PedidoDetalle
             modelBuilder.Entity<PedidoDetalle>()
                 .HasOne(pd => pd.Pedido)
-                .WithMany(p => p.Detalles)
+                .WithMany(p => p.PedidoDetalles)
                 .HasForeignKey(pd => pd.PedidoId)
                 .OnDelete(DeleteBehavior.Cascade);
 

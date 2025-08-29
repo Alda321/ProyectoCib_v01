@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MyAppFirst.Data;
+using Modelo.Server.Data;
 
 #nullable disable
 
-namespace MyAppFirst.Migrations
+namespace Modelo.Server.Migrations
 {
     [DbContext(typeof(MyAppContext))]
-    partial class MyAppContextModelSnapshot : ModelSnapshot
+    [Migration("20250829183002_lss")]
+    partial class lss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,16 +25,13 @@ namespace MyAppFirst.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MyAppFirst.Models.Pedido", b =>
+            modelBuilder.Entity("Modelo.Server.Models.Pedido", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Comentario")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Estado")
                         .HasColumnType("int");
@@ -56,7 +56,7 @@ namespace MyAppFirst.Migrations
                     b.ToTable("Pedidos");
                 });
 
-            modelBuilder.Entity("MyAppFirst.Models.PedidoDetalle", b =>
+            modelBuilder.Entity("Modelo.Server.Models.PedidoDetalle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,33 +80,38 @@ namespace MyAppFirst.Migrations
                     b.HasIndex("PlatoId");
 
                     b.ToTable("PedidoDetalles");
+
+                    b.HasAnnotation("Relational:JsonPropertyName", "pedido_detalles");
                 });
 
-            modelBuilder.Entity("MyAppFirst.Models.Plato", b =>
+            modelBuilder.Entity("Modelo.Server.Models.Plato", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("Relational:JsonPropertyName", "id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Activo")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasAnnotation("Relational:JsonPropertyName", "activo");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasAnnotation("Relational:JsonPropertyName", "nombre");
 
                     b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,2)")
+                        .HasAnnotation("Relational:JsonPropertyName", "precio");
 
                     b.HasKey("Id");
 
                     b.ToTable("Platos");
                 });
 
-            modelBuilder.Entity("MyAppFirst.Models.Usuario", b =>
+            modelBuilder.Entity("Modelo.Server.Models.Usuario", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -137,24 +142,24 @@ namespace MyAppFirst.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("MyAppFirst.Models.Pedido", b =>
+            modelBuilder.Entity("Modelo.Server.Models.Pedido", b =>
                 {
-                    b.HasOne("MyAppFirst.Models.Usuario", "Mozo")
+                    b.HasOne("Modelo.Server.Models.Usuario", "Mozo")
                         .WithMany()
                         .HasForeignKey("MozoId");
 
                     b.Navigation("Mozo");
                 });
 
-            modelBuilder.Entity("MyAppFirst.Models.PedidoDetalle", b =>
+            modelBuilder.Entity("Modelo.Server.Models.PedidoDetalle", b =>
                 {
-                    b.HasOne("MyAppFirst.Models.Pedido", "Pedido")
+                    b.HasOne("Modelo.Server.Models.Pedido", "Pedido")
                         .WithMany("Detalles")
                         .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MyAppFirst.Models.Plato", "Plato")
+                    b.HasOne("Modelo.Server.Models.Plato", "Plato")
                         .WithMany("PedidoDetalles")
                         .HasForeignKey("PlatoId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -165,12 +170,12 @@ namespace MyAppFirst.Migrations
                     b.Navigation("Plato");
                 });
 
-            modelBuilder.Entity("MyAppFirst.Models.Pedido", b =>
+            modelBuilder.Entity("Modelo.Server.Models.Pedido", b =>
                 {
                     b.Navigation("Detalles");
                 });
 
-            modelBuilder.Entity("MyAppFirst.Models.Plato", b =>
+            modelBuilder.Entity("Modelo.Server.Models.Plato", b =>
                 {
                     b.Navigation("PedidoDetalles");
                 });
