@@ -10,7 +10,7 @@ builder.Services.AddSwaggerGen();
 
 // Configurar DbContext con SQL Server
 builder.Services.AddDbContext<MyAppContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("cadena")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
 var app = builder.Build();
 
